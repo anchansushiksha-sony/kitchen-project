@@ -1,0 +1,44 @@
+{% extends "core/base.html" %}
+
+{% block title %}My Wishlist{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">My Wishlist</h2>
+
+    {% if wishlist_items %}
+    <div class="row g-4">
+        {% for item in wishlist_items %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+
+
+              
+                <!-- ✅ PRODUCT IMAGE (ADD HERE) -->
+                <div class="wishlist-img-wrapper">
+    <img src="{{ item.product.image.url }}"
+         alt="{{ item.product.name }}">
+</div>
+
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.product.name }}</h5>
+                    <p class="card-text">₹ {{ item.product.price }}</p>
+
+                    Remove from wishlist
+                    <form method="POST" action="{% url 'wishlist_toggle' item.product.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger btn-sm">
+                            Remove ♥
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-muted">Your wishlist is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

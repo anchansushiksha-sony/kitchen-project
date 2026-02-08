@@ -1,0 +1,111 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+
+    <div class="row g-5 align-items-start">
+
+        <!-- Product Image -->
+        <div class="col-md-5 position-relative">
+            <div class="border rounded p-3 bg-light">
+{% if product.image %}
+    <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+{% else %}
+    <img src="{% static 'images/no-image.png' %}" class="img-fluid" alt="No image available">
+{% endif %}
+            </div>
+
+            <!-- Wishlist Heart -->
+            <div class="position-absolute top-0 end-0 m-3">
+                 <!-- Wishlist Heart -->
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'wishlist_toggle' product.id %}" class="position-absolute top-0 end-0 m-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm p-1 border-0 bg-transparent">
+                        {% if product.id in wishlist_products %}
+                            <span class="heart active fs-5">♥</span>
+                        {% else %}
+                            <span class="heart fs-5">♡</span>
+                        {% endif %}
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="position-absolute top-0 end-0 m-2 text-decoration-none text-danger fs-5">
+                    ♡
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-md-7">
+            <h2 class="fw-bold">{{ product.name }}</h2>
+
+            <!-- Ratings -->
+            <div class="mb-2 text-warning">
+                ★★★★☆ <span class="text-muted">(124 ratings)</span>
+            </div>
+
+            <!-- Price -->
+            <h3 class="text-success fw-bold">₹{{ product.price }}</h3>
+            <p class="text-muted">Inclusive of all taxes</p>
+
+            <!-- Description -->
+            <p class="mt-3">{{ product.description }}</p>
+
+            <!-- Quantity -->
+            <div class="d-flex align-items-center my-3">
+                <label class="me-2 fw-semibold">Quantity:</label>
+                <input type="number" value="1" min="1" class="form-control w-25">
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex gap-3 mt-4">
+
+                <!-- Add to Cart -->
+                <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-warning btn-lg">
+                        🛒 Add to Cart
+                    </button>
+                </form>
+
+                <!-- Buy Now -->
+                <form method="POST" action="{% url 'buy_now' product.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-dark btn-lg">
+                        ⚡ Buy Now
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Hover Animation & Heart CSS -->
+<style>
+.hover-scale:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+}
+
+.heart {
+    color: #ff4d4d;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.heart:hover {
+    transform: scale(1.2);
+}
+
+.heart.active {
+    color: #e60000;
+}
+</style>
+
+{% endblock %}

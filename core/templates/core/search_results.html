@@ -1,0 +1,111 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Search Title -->
+    <h2 class="mb-4 text-center">
+        {% if query %}
+            Search Results for "{{ query }}"
+        {% else %}
+            All Products
+        {% endif %}
+    </h2>
+
+    <div class="row">
+        <!-- Sidebar Filters (optional) -->
+        <div class="col-md-3">
+            <h5>Filters</h5>
+            <hr>
+            <form method="get">
+                <div class="mb-3">
+                    <label>Category</label>
+                    <select class="form-select" name="category">
+                        <option value="">All</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Price Range</label>
+                    <input type="text" class="form-control" name="price" placeholder="e.g. 500-2000" value="{{ request.GET.price }}">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Apply</button>
+            </form>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="col-md-9">
+            <div class="row g-4">
+                {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        {% else %}
+                        <img src="{% static 'images/no-image.png' %}" class="card-img-top" alt="No Image">
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-success fw-bold">₹{{ product.price }}</p>
+                            <div class="mb-2">
+                                   {% for _ in "12345" %}
+        {% if forloop.counter <= product.rating %}
+                                        <span class="text-warning">&#9733;</span>
+                                    {% else %}
+                                        <span class="text-muted">&#9733;</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                            <button class="btn btn-danger btn-sm mt-1">♥ Wishlist</button>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center">No products found matching your query.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-4">
+                {% if products.has_other_pages %}
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        {% if products.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.price %}&price={{ request.GET.price }}{% endif %}">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                        {% endif %}
+
+                        {% for num in products.paginator.page_range %}
+                            {% if products.number == num %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.price %}&price={{ request.GET.price }}{% endif %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if products.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.price %}&price={{ request.GET.price }}{% endif %}">Next</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">{{ category.name }}</h1>
+
+    {% if products %}
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 hover-scale position-relative">
+                
+                <!-- Wishlist Heart -->
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'wishlist_toggle' product.id %}" class="position-absolute top-0 end-0 m-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm p-1 border-0 bg-transparent">
+                        {% if product.id in wishlist_products %}
+                            <span class="heart active fs-5">♥</span>
+                        {% else %}
+                            <span class="heart fs-5">♡</span>
+                        {% endif %}
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="position-absolute top-0 end-0 m-2 text-decoration-none text-danger fs-5">♡</a>
+                {% endif %}
+
+                <!-- Product Image -->
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height:200px; object-fit:cover;">
+                {% else %}
+                <img src="{% static 'core/images/default-product.jpg' %}" class="card-img-top" alt="{{ product.name }}" style="height:200px; object-fit:cover;">
+                {% endif %}
+
+                <!-- Card Body -->
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted small">{{ product.short_description }}</p>
+                    <p class="fw-bold text-success mt-auto">₹{{ product.price }}</p>
+                    <div class="mt-2">
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-warning w-100 mb-1">View Product</a>
+                        <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-dark w-100">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-center">No products found in this category.</p>
+    {% endif %}
+</div>
+
+<style>
+.hover-scale:hover {
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+}
+.heart {
+    color: #ff4d4d;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.heart:hover {
+    transform: scale(1.2);
+}
+.heart.active {
+    color: #e60000;
+}
+</style>
+
+{% endblock %}

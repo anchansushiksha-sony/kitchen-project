@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
+        <h4 class="text-center mb-3">Login</h4>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <button class="btn btn-warning w-100">Login</button>
+        </form>
+
+         <p class="text-center mt-3 mb-0">
+            New customer?
+            <a href="{% url 'users:customer_register' %}">
+                Create your account
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}
