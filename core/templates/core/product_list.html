@@ -14,9 +14,9 @@
             <div class="card h-100 shadow-sm">
 
                 {% if product.image %}
-                <img src="{{ product.image.url }}"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;">
+               <div class="product-img-box">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+</div>
                 {% else %}
                 <img src="{% static 'core/img/no-image.png' %}"
                      class="card-img-top"

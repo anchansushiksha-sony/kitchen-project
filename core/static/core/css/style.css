@@ -221,41 +221,27 @@ footer {
 }
 
 
-/* FIX IMAGE OVERFLOW */
 
-product-img {
-    width: 100%;
-    height: 220px;
-    object-fit: contain;   /* makes image clear */
-    background-color: #fff;
-   object-fit: cover;
- 
-}
 
+/* ===== FINAL PRODUCT IMAGE FIX ===== */
+
+/* CATEGORY + PRODUCT IMAGE FIX */
 .product-img-box {
-    height: 200px;
+    height: 220px;
     width: 100%;
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    margin-bottom: 12px;
 }
 
 .product-img-box img {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 🔥 THIS fixes washing machine issue */
 }
 
-
-
-
-
-/*prdct-dtl*/
-img {
-    object-fit: contain;
-}
 
 button.btn-warning {
     background-color: #ff9f00;
