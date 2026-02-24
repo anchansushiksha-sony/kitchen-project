@@ -50,13 +50,13 @@
             <!-- Right -->
             <div class="d-flex align-items-center">
                 {% if user.is_authenticated %}
-                    <span class="nav-link fw-semibold me-2">Hi, {{ user.username }}</span>
-                    <form method="post" action="{% url 'logout' %}" class="me-2">
+<span class="d-none d-lg-inline nav-link fw-semibold me-2">
+    Hi, {{ user.username }}
+</span>                    <form method="post" action="{% url 'logout' %}" class="me-2">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Logout</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'admin:index' %}" class="btn btn-dark btn-sm me-2">Admin</a>
 
                     <button class="btn btn-outline-primary btn-sm me-2"
                             data-bs-toggle="modal"
@@ -75,12 +75,13 @@
                     Cart ({{ cart_count|default:0 }})
                 </a>
 
-                <form action="{% url 'product_search' %}" method="get" class="d-flex">
-                    <input type="text" name="q" class="form-control me-2"
-                           placeholder="Search products..."
-                           value="{{ request.GET.q }}">
-                    <button class="btn btn-warning" type="submit">Search</button>
-                </form>
+                <form action="{% url 'product_search' %}" method="get"
+      class="d-none d-lg-flex ms-2">
+    <input type="text" name="q" class="form-control me-2"
+           placeholder="Search products..."
+           value="{{ request.GET.q }}">
+    <button class="btn btn-warning" type="submit">Search</button>
+</form>
             </div>
 
         </div>
@@ -153,7 +154,7 @@
 
 
 <!-- ================= WHATSAPP FLOAT ================= -->
-<a href="https://wa.me/910740967850"
+<a href="https://wa.me/919740967850"
    class="whatsapp-float"
    target="_blank"
    aria-label="Chat on WhatsApp">

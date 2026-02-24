@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# --------------------------------------------------
+# BASE DIRECTORY
+# --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -21,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-secret-key')
-
-
+DEBUG = True
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -131,39 +133,38 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
-""" STATICFILES_DIRS = [
+STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'core' / 'static',
-] """
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# --------------------------------------------------
+# MEDIA FILES
+# --------------------------------------------------
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
-
-
-# AUTHENTICATION SETTINGS
+# --------------------------------------------------
+# AUTHENTICATION REDIRECTS
+# --------------------------------------------------
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 
+# --------------------------------------------------
+# DEFAULT PRIMARY KEY
+# --------------------------------------------------
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
-
-# ===============================
-# RAZORPAY SETTINGS
-# ===============================
-
+# --------------------------------------------------
+# RAZORPAY (PLACEHOLDERS)
+# --------------------------------------------------
 RAZORPAY_KEY_ID = 'your_key_id'
-RAZORPAY_KEY_SECRET = 'your_secret' 
-
-
-
+RAZORPAY_KEY_SECRET = 'your_secret'
