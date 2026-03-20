@@ -4,39 +4,8 @@
 {% block content %}
 <div class="container py-5">
 
-    <!-- Search Title -->
-    <h2 class="mb-4 text-center">
-        {% if query %}
-            Search Results for "{{ query }}"
-        {% else %}
-            All Products
-        {% endif %}
-    </h2>
-
-    <div class="row">
-        <!-- Sidebar Filters (optional) -->
-        <div class="col-md-3">
-            <h5>Filters</h5>
-            <hr>
-            <form method="get">
-                <div class="mb-3">
-                    <label>Category</label>
-                    <select class="form-select" name="category">
-                        <option value="">All</option>
-                        {% for category in categories %}
-                        <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
-                            {{ category.name }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label>Price Range</label>
-                    <input type="text" class="form-control" name="price" placeholder="e.g. 500-2000" value="{{ request.GET.price }}">
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Apply</button>
-            </form>
-        </div>
+   
+    
 
         <!-- Products Grid -->
         <div class="col-md-9">

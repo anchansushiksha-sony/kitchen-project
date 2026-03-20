@@ -13,8 +13,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
   # Products
     path("products/", views.product_list, name="product_list"),  # ⭐ THIS LINE
-    path('search/', views.product_search, name='product_search'),
-    path('products/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('search/', product_views.product_search, name='product_search'),    path('products/<int:product_id>/', views.product_detail, name='product_detail'),
 
     # Categories
     path('categories/', views.categories, name='categories'),
